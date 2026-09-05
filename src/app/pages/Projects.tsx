@@ -111,7 +111,7 @@ export default function Projects() {
       id: 3,
       title: "Nutripet App",
       description:
-        "An HCI-centered Figma mockup that simplifies personalized pet care through features for health tracking, daily routines, pet preferences, and AI-powered guidance.",
+        "An HCI-centered Figma mockup that simplifies personalized pet care through pet preference tracking and AI-powered guidance.",
       images: [
         "/nutripetProject/chat_home.png",
         "/nutripetProject/chat_home_general.png",
