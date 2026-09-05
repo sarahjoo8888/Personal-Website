@@ -1,6 +1,17 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Github, ChevronLeft, ChevronRight, Lightbulb } from "lucide-react";
+import { Github, ExternalLink, ChevronLeft, ChevronRight, Lightbulb } from "lucide-react";
 import { useState } from "react";
+
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  images: string[];
+  tags: string[];
+  github: string | null;
+  live: string | null;
+  borderColor: string;
+}
 
 function ImageCarousel({ images, title }: { images: string[]; title: string }) {
   const [current, setCurrent] = useState(0);
@@ -23,7 +34,6 @@ function ImageCarousel({ images, title }: { images: string[]; title: string }) {
         />
       </AnimatePresence>
 
-      {/* Arrows */}
       {images.length > 1 && (
         <>
           <button
@@ -41,7 +51,6 @@ function ImageCarousel({ images, title }: { images: string[]; title: string }) {
         </>
       )}
 
-      {/* Dots */}
       {images.length > 1 && (
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
           {images.map((_, i) => (
@@ -62,7 +71,7 @@ function ImageCarousel({ images, title }: { images: string[]; title: string }) {
 }
 
 export default function Projects() {
-  const projects = [
+  const projects: Project[] = [
     {
       id: 1,
       title: "Bleacher Rentals Driver App",
@@ -77,6 +86,7 @@ export default function Projects() {
       ],
       tags: ["React Native", "TypeScript", "Expo", "Firebase"],
       github: null,
+      live: null,
       borderColor: "var(--pastel-purple)",
     },
     {
@@ -94,6 +104,28 @@ export default function Projects() {
       ],
       tags: ["Kotlin", "Jetpack Compose", "Firebase"],
       github: null,
+      live: null,
+      borderColor: "var(--pastel-purple)",
+    },
+    {
+      id: 3,
+      title: "Nutripet App",
+      description:
+        "An HCI-centered Figma mockup that simplifies personalized pet care through features for health tracking, daily routines, pet preferences, and AI-powered guidance.",
+      images: [
+        "/nutripetProject/chat_home.png",
+        "/nutripetProject/chat_home_general.png",
+        "/nutripetProject/chat_history.png",
+        "/nutripetProject/chat_keyb.png",
+        "/nutripetProject/chat_ans.png",
+        "/nutripetProject/chat_ans_save.png",
+        "/nutripetProject/pref_home.png",
+        "/nutripetProject/pref_add_prod.png",
+        "/nutripetProject/pref_edit_pref.png",
+      ],
+      tags: ["Figma"],
+      github: null,
+      live: "https://www.youtube.com/watch?v=SKvA93tAdKg",
       borderColor: "var(--pastel-purple)",
     },
   ];
@@ -101,7 +133,6 @@ export default function Projects() {
   return (
     <div className="min-h-screen py-6 px-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -118,7 +149,6 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
             <motion.article
@@ -132,12 +162,8 @@ export default function Projects() {
             >
               <ImageCarousel images={project.images} title={project.title} />
 
-              {/* Content */}
               <div className="p-6">
-                <h2
-                  className="mb-3"
-                  style={{ fontSize: "1.5rem", fontWeight: 600, lineHeight: 1.3 }}
-                >
+                <h2 className="mb-3" style={{ fontSize: "1.5rem", fontWeight: 600, lineHeight: 1.3 }}>
                   {project.title}
                 </h2>
 
@@ -148,7 +174,6 @@ export default function Projects() {
                   {project.description}
                 </p>
 
-                {/* Tech Stack Tags */}
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.tags.map((tag, tagIndex) => (
                     <span
@@ -165,21 +190,37 @@ export default function Projects() {
                   ))}
                 </div>
 
-          {/* Action Buttons */}
-                <div className="flex gap-3">
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all hover:scale-105"
-                      style={{ borderColor: project.borderColor, color: project.borderColor, fontWeight: 500 }}
-                    >
-                      <Github size={18} />
-                      GitHub
-                    </a>
-                  )}
-                </div>
+                {(project.github || project.live) && (
+                  <div className="flex gap-3">
+                    {project.github && (
+                      <a 
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 transition-all hover:scale-105"
+                        style={{ borderColor: project.borderColor, color: project.borderColor, fontWeight: 500 }}
+                      >
+                        <Github size={18} />
+                        GitHub
+                      </a>
+                    )}
+
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-white transition-all hover:scale-105"
+                        style={{ backgroundColor: project.borderColor, fontWeight: 500 }}
+                      >
+                        <ExternalLink size={18} />
+                        {project.live.includes("youtube.com") || project.live.includes("youtu.be")
+                          ? "Watch Demo"
+                          : "Live Demo"}
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             </motion.article>
           ))}
@@ -188,4 +229,3 @@ export default function Projects() {
     </div>
   );
 }
- 
